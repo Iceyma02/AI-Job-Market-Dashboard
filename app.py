@@ -1,4 +1,4 @@
-# ai_job_dashboard_enhanced.py
+# app.py - Enhanced AI Job Market Dashboard with GitHub Data Loading
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -7,6 +7,8 @@ import plotly.graph_objects as go
 import os
 import re
 from collections import Counter
+import requests
+import io
 
 # Page configuration
 st.set_page_config(
@@ -51,33 +53,70 @@ def get_theme_css(is_dark):
 if 'dark_mode' not in st.session_state:
     st.session_state.dark_mode = False
 
-# ---------- Helpers ----------
-def try_read_csv(path):
-    try:
-        return pd.read_csv(path)
-    except Exception as e:
-        st.sidebar.error(f"Failed to read {path}: {e}")
-        return None
-
+# ---------- Data Loading from GitHub ----------
 @st.cache_data
-def load_all_datasets(base_dir=None):
-    files = {
-        "ai_job_dataset": "ai_job_dataset.csv",
-        "ai_job_market": "ai_job_market.csv", 
-        "linkedin_jobs_analysis": "linkedin_jobs_analysis.csv"
+def load_data_from_github():
+    """Load CSV files directly from GitHub raw URLs"""
+    
+    # Replace with your actual GitHub raw file URLs
+    github_files = {
+        "ai_job_dataset": "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO_NAME/main/data/raw/ai_job_dataset.csv",
+        "linkedin_jobs_analysis": "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO_NAME/main/data/raw/linkedin_jobs_analysis.csv", 
+        "ai_job_market": "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO_NAME/main/data/raw/ai_job_market.csv"
     }
+    
     dfs = {}
-    for k, fn in files.items():
-        if base_dir:
-            p = os.path.join(base_dir, fn)
-        else:
-            p = fn
-        if os.path.exists(p):
-            df = try_read_csv(p)
-            if df is not None:
-                dfs[k] = df
+    
+    for name, url in github_files.items():
+        try:
+            # Try to load from GitHub
+            response = requests.get(url)
+            if response.status_code == 200:
+                df = pd.read_csv(io.StringIO(response.text))
+                dfs[name] = df
+                st.sidebar.success(f"✅ Loaded {name} from GitHub")
+            else:
+                st.sidebar.warning(f"⚠️ Could not load {name} from GitHub")
+        except Exception as e:
+            st.sidebar.error(f"❌ Error loading {name}: {e}")
+    
+    # If GitHub loading fails, try local files as fallback
+    if not dfs:
+        st.sidebar.info("🔄 Trying local files...")
+        local_files = {
+            "ai_job_dataset": "data/raw/ai_job_dataset.csv",
+            "linkedin_jobs_analysis": "data/raw/linkedin_jobs_analysis.csv",
+            "ai_job_market": "data/raw/ai_job_market.csv"
+        }
+        
+        for name, path in local_files.items():
+            try:
+                if os.path.exists(path):
+                    df = pd.read_csv(path)
+                    dfs[name] = df
+                    st.sidebar.success(f"✅ Loaded {name} locally")
+            except Exception as e:
+                st.sidebar.error(f"❌ Error loading {name} locally: {e}")
+    
     return dfs
 
+@st.cache_data
+def load_sample_data():
+    """Create sample data if no files are found"""
+    st.sidebar.warning("📊 Using sample data - replace with your CSV files")
+    return {
+        "ai_job_dataset": pd.DataFrame({
+            'job_title': ['AI Engineer', 'Data Scientist', 'ML Researcher', 'AI Product Manager'],
+            'salary_usd': [120000, 110000, 130000, 125000],
+            'experience_level': ['Senior', 'Mid', 'Senior', 'Mid'],
+            'company_location': ['USA', 'Canada', 'UK', 'Germany'],
+            'required_skills': ['Python, TensorFlow', 'Python, SQL, ML', 'PyTorch, Research', 'Product, AI'],
+            'industry': ['Tech', 'Tech', 'Research', 'Tech'],
+            'remote_ratio': [100, 50, 0, 100]
+        })
+    }
+
+# ---------- Helper Functions ----------
 def clean_salary(df):
     s = pd.Series([np.nan] * len(df), index=df.index, dtype=float)
 
@@ -121,7 +160,7 @@ def unify_location(df):
     return pd.Series(["Unknown"] * len(df), index=df.index)
 
 def gather_skills_series(df):
-    possible = ['required_skills', 'skills_required', 'skills', 'tools_preferred', 'required_skills']
+    possible = ['required_skills', 'skills_required', 'skills', 'tools_preferred']
     skills_col = None
     for c in possible:
         if c in df.columns:
@@ -154,7 +193,25 @@ def get_plotly_theme(is_dark):
             'template': 'plotly_white'
         }
 
-# ---------- Theme Toggle in Sidebar ----------
+# ---------- Data Loading Section ----------
+st.sidebar.title("📊 Data Source")
+st.sidebar.markdown("Loading data from GitHub repository...")
+
+# Load data
+dfs = load_data_from_github()
+
+# If no data loaded, use sample data
+if not dfs:
+    dfs = load_sample_data()
+
+# Show loaded datasets
+st.sidebar.markdown("---")
+st.sidebar.subheader("📁 Loaded Datasets")
+for name, df in dfs.items():
+    st.sidebar.markdown(f"**{name}**: {df.shape[0]:,} rows, {df.shape[1]} cols")
+
+# ---------- Theme Toggle ----------
+st.sidebar.markdown("---")
 st.sidebar.markdown("### 🎨 Theme Settings")
 if st.sidebar.button("🌙 Dark Mode" if not st.session_state.dark_mode else "☀️ Light Mode"):
     st.session_state.dark_mode = not st.session_state.dark_mode
@@ -163,25 +220,10 @@ if st.sidebar.button("🌙 Dark Mode" if not st.session_state.dark_mode else "�
 # Apply theme CSS
 st.markdown(get_theme_css(st.session_state.dark_mode), unsafe_allow_html=True)
 
-# ---------- Load data ----------
-st.sidebar.title("Dataset & Settings")
-st.sidebar.markdown("Drop your CSV files in the same folder as this script or provide a base path.")
-
-base_path = st.sidebar.text_input("Optional base path to CSVs", value="")
-dfs = load_all_datasets(base_path if base_path.strip() else None)
-
-if not dfs:
-    st.sidebar.error("No CSVs found. Place ai_job_dataset.csv, ai_job_market.csv or linkedin_jobs_analysis.csv in this folder.")
-    st.stop()
-
+# ---------- Dataset Selection ----------
 dataset_names = list(dfs.keys())
 chosen = st.sidebar.selectbox("Choose dataset to analyze", dataset_names, index=0)
 df = dfs[chosen].copy()
-st.sidebar.success(f"Loaded `{chosen}` ({df.shape[0]:,} rows, {df.shape[1]} cols)")
-
-# Quick peek column list
-with st.sidebar.expander("📋 Columns in loaded dataset"):
-    st.write(list(df.columns))
 
 # Build normalized columns
 df['salary_clean'] = clean_salary(df)
@@ -266,7 +308,7 @@ st.sidebar.markdown(f"- 🤖 Roles: {role_choice}")
 if salary_sel:
     st.sidebar.markdown(f"- 💰 Salary: ${salary_sel[0]:,} - ${salary_sel[1]:,}")
 
-# ---------- Layout & Sections ----------
+# ---------- Main Dashboard Layout ----------
 st.markdown('<div class="main-header">🧠 AI Job Market Intelligence Dashboard</div>', unsafe_allow_html=True)
 
 sections = [
@@ -354,19 +396,8 @@ if selected_section == "🏠 Dashboard Overview":
     except Exception as e:
         st.error(f"Error generating insights: {e}")
 
-    # Data Preview with enhanced info
-    st.markdown('<div class="section-header">📋 Data Preview & Summary</div>', unsafe_allow_html=True)
-    
-    # Summary stats
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Filtered Jobs", f"{len(filtered):,}")
-    with col2:
-        st.metric("AI Roles", f"{int(filtered['is_ai_role'].sum()):,}")
-    with col3:
-        if 'salary_clean' in filtered.columns:
-            st.metric("Avg Salary", f"${int(filtered['salary_clean'].mean()):,}" if not filtered['salary_clean'].isna().all() else "N/A")
-    
+    # Data Preview
+    st.markdown('<div class="section-header">📋 Data Preview</div>', unsafe_allow_html=True)
     st.dataframe(filtered.head(10), use_container_width=True)
 
 # ---------- MARKET ANALYSIS ----------
@@ -543,24 +574,6 @@ elif selected_section == "🌍 Geographic Trends":
                 )
                 fig.update_layout(**plotly_theme)
                 st.plotly_chart(fig, use_container_width=True)
-            
-            # Salary by Location
-            if 'salary_clean' in filtered.columns:
-                st.markdown('<div class="section-header">💰 Salary by Location</div>', unsafe_allow_html=True)
-                top_locs = loc_counts.head(6).index
-                location_salary_data = filtered[
-                    filtered['location_unified'].isin(top_locs)
-                ][['location_unified','salary_clean']].dropna()
-                
-                if not location_salary_data.empty:
-                    fig = px.box(
-                        location_salary_data, 
-                        x='location_unified', 
-                        y='salary_clean',
-                        title="💵 Salary Distribution by Top Locations"
-                    )
-                    fig.update_layout(**plotly_theme, xaxis_tickangle=45)
-                    st.plotly_chart(fig, use_container_width=True)
 
 # ---------- AI IMPACT REPORT ----------
 elif selected_section == "📈 AI Impact Report":
@@ -620,31 +633,6 @@ elif selected_section == "📈 AI Impact Report":
             "Continuous learning in AI frameworks and cloud technologies is essential for career advancement.",
             "Stay updated with emerging tools and methodologies."
         )
-
-    # Skills Comparison
-    st.markdown('<div class="section-header">🛠️ Skills Comparison: AI vs Non-AI</div>', unsafe_allow_html=True)
-    
-    if 'skills_list' in filtered.columns and 'is_ai_role' in filtered.columns:
-        ai_skills = make_skill_counter(filtered[filtered['is_ai_role'] == True]['skills_list'])
-        non_ai_skills = make_skill_counter(filtered[filtered['is_ai_role'] == False]['skills_list'])
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.subheader("🤖 AI Role Skills")
-            if ai_skills:
-                for skill, count in ai_skills.most_common(8):
-                    st.write(f"• **{skill.title()}** — {count} mentions")
-            else:
-                st.info("No skills data for AI roles")
-        
-        with col2:
-            st.subheader("💼 Non-AI Role Skills")
-            if non_ai_skills:
-                for skill, count in non_ai_skills.most_common(8):
-                    st.write(f"• **{skill.title()}** — {count} mentions")
-            else:
-                st.info("No skills data for non-AI roles")
 
 # Footer
 st.markdown("---")

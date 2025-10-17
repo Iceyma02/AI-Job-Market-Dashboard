@@ -8,7 +8,7 @@ The **AI Job Market Intelligence Dashboard** is an interactive Streamlit applica
 
 ## 🚀 Live Demo
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ai-job-market-dashboard-ncflwmukusaxbgyu3faqfs.streamlit.app/))
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ai-job-market-dashboard-ncflwmukusaxbgyu3faqfs.streamlit.app/)
 
 ## 📊 Features
 

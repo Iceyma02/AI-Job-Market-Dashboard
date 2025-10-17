@@ -60,9 +60,9 @@ def load_data_from_github():
     
     # Replace with your actual GitHub raw file URLs
     github_files = {
-        "ai_job_dataset": "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO_NAME/main/data/raw/ai_job_dataset.csv",
-        "linkedin_jobs_analysis": "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO_NAME/main/data/raw/linkedin_jobs_analysis.csv", 
-        "ai_job_market": "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO_NAME/main/data/raw/ai_job_market.csv"
+        "ai_job_dataset": "https://raw.githubusercontent.com/Iceyma02/AI-Job-Market-Dashboard/main/data/raw/ai_job_dataset.csv",
+        "linkedin_jobs_analysis": "https://raw.githubusercontent.com/Iceyma02/AI-Job-Market-Dashboard/main/data/raw/linkedin_jobs_analysis.csv", 
+        "ai_job_market": "https://raw.githubusercontent.com/Iceyma02/AI-Job-Market-Dashboard/main/data/raw/ai_job_market.csv"
     }
     
     dfs = {}

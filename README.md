@@ -1,149 +1,272 @@
-Ayy bet bro 😎 let’s make this README.md clean, professional, and ready to drop on GitHub.
-Here’s your **full README.md** for the **AI Job Market Dashboard** — structured perfectly for a portfolio project 👇
+# 🧠 AI Job Market Intelligence Dashboard
 
----
+![Dashboard Overview](images/Dashboard%20Overview.png)
 
-## 🧠 AI Job Market Dashboard
+## 📖 Overview
 
-### 📌 Overview
+The **AI Job Market Intelligence Dashboard** is an interactive Streamlit application that provides comprehensive analysis of the AI job market. This dashboard processes and visualizes data from multiple job market datasets, offering insights into AI roles, salary trends, required skills, geographic distributions, and market impact.
 
-The **AI Job Market Dashboard** is a data-driven project that explores how **Artificial Intelligence (AI)** is reshaping global employment trends. It analyzes job growth, automation risks, and skill demand across multiple industries such as **Technology, Finance, Healthcare, Education, and Manufacturing**.
+## 🚀 Live Demo
 
-This project provides insights into how AI is **creating**, **transforming**, and **disrupting** jobs worldwide — using data visualization and Natural Language Processing (NLP) to reveal patterns and trends from real-world datasets.
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://your-app-name.streamlit.app/)
 
----
+## 📊 Features
 
-### 🎯 Objectives
+### 🏠 **Dashboard Overview**
+- Executive summary with key metrics
+- Total jobs, AI roles percentage, average salary, and company count
+- Quick insights with actionable intelligence
+- Interactive data preview
 
-* Analyze the **impact of AI on global and industry-specific job trends**
-* Identify **skills in demand** in the AI era
-* Visualize **job creation vs automation displacement rates**
-* Perform **text analysis** on job listings using NLP to uncover keyword trends
-* Build an **interactive dashboard** for exploration and storytelling
+![Dashboard Overview](images/Dashboard%20Overview.png)
 
----
+### 📈 **Market Analysis**
+- Top job titles distribution
+- AI vs Non-AI roles comparison
+- Industry hiring patterns
+- Skills and tools demand analysis
 
-### 🧰 Tech Stack
+![Market Analysis](images/Market%20Analysis.png)
 
-| Category      | Tools / Libraries                                             |
-| ------------- | ------------------------------------------------------------- |
-| Programming   | Python                                                        |
-| Data Handling | Pandas, NumPy                                                 |
-| Visualization | Matplotlib, Seaborn, Plotly                                   |
-| NLP           | NLTK, spaCy, WordCloud                                        |
-| Dashboard     | Streamlit                                                     |
-| Data Sources  | Kaggle, LinkedIn Jobs API, OECD, World Economic Forum Reports |
+### 💰 **Salary Insights**
+- Salary distribution analysis
+- AI vs Non-AI salary comparison
+- Statistical breakdown (mean, median, range)
+- Interactive salary filtering
 
----
+![Salary Insights](images/Salary%20Insights.png)
 
-### 📂 Project Structure
+### 🛠️ **Skills Intelligence**
+- Top demanded skills visualization
+- Skills frequency analysis
+- Skills categorization (Programming, ML Frameworks, Cloud, Data Tools)
+- Skills comparison between AI and non-AI roles
 
-```bash
+![Skills Intelligence](images/Skills%20Intelligence.png)
+
+### 🌍 **Geographic Trends**
+- Job distribution by location
+- Top hiring locations analysis
+- Salary variations by geography
+- Regional market insights
+
+![Geographic Trends](images/Geographic%20Trends.png)
+
+### 📊 **AI Impact Report**
+- AI market share analysis
+- Salary premium calculations
+- Market growth insights
+- Skills gap identification
+
+![AI Impact Report](images/AI%20Impact%20Report.png)
+
+## 🛠️ Technology Stack
+
+### **Backend & Data Processing**
+- **Python 3.8+** - Core programming language
+- **Pandas** - Data manipulation and analysis
+- **NumPy** - Numerical computations
+
+### **Visualization & UI**
+- **Streamlit** - Interactive web application framework
+- **Plotly** - Interactive charts and graphs
+- **Plotly Express** - Simplified plotting interface
+
+### **Data Sources & Processing**
+- **Multiple CSV datasets** integration
+- **Custom data cleaning pipelines**
+- **Salary parsing algorithms** (handles various formats: USD, ranges, k notation)
+- **Skills extraction and normalization**
+- **Location unification** across datasets
+
+### **Features**
+- **Dark/Light mode** toggle
+- **Responsive design** for all screen sizes
+- **Interactive filters** (location, salary, role type)
+- **Real-time data updates**
+- **Multi-dataset support**
+
+## 📁 Project Structure
+
+```
 AI-Job-Market-Dashboard/
 │
-├── data/
-│   ├── raw/                     # Original datasets
-│   ├── processed/               # Cleaned and transformed data
+├── app.py                          # Main Streamlit application
+├── requirements.txt                # Python dependencies
+├── README.md                       # Project documentation
 │
-├── notebooks/
-│   ├── data_cleaning.ipynb      # Data preprocessing and cleaning
-│   ├── eda_visuals.ipynb        # Exploratory data analysis and visualizations
-│   ├── nlp_analysis.ipynb       # NLP skill and job description analysis
+├── data/                          # Data directory
+│   ├── ai_job_dataset.csv         # Primary dataset
+│   ├── ai_job_market.csv          # Additional market data
+│   └── linkedin_jobs_analysis.csv # LinkedIn job insights
 │
-├── dashboard/
-│   ├── app.py                   # Streamlit dashboard script
-│
-├── requirements.txt             # Dependencies
-├── README.md                    # Project documentation
-└── LICENSE                      # License file (optional)
+└── images/                        # Screenshots and assets
+    ├── Dashboard Overview.png
+    ├── Market Analysis.png
+    ├── Salary Insights.png
+    ├── Skills Intelligence.png
+    ├── Geographic Trends.png
+    ├── AI Impact Report.png
+    └── Left side bar.png
 ```
 
----
+## 🔧 Installation & Setup
 
-### 📊 Dashboard Features
+### Prerequisites
+- Python 3.8 or higher
+- pip (Python package manager)
 
-✅ Interactive job trend visualizations by sector & region
-✅ Keyword and skill frequency WordClouds
-✅ AI automation risk percentage by industry
-✅ Salary and demand correlation plots
-✅ Search filters for job role, region, and skill
+### Step-by-Step Installation
 
----
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Iceyma02/AI-Job-Market-Dashboard.git
+   cd AI-Job-Market-Dashboard
+   ```
 
-### 📦 Installation & Setup
+2. **Create a virtual environment (recommended)**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
-1️⃣ Clone this repo:
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```bash
-git clone https://github.com/<your-username>/AI-Job-Market-Dashboard.git
-cd AI-Job-Market-Dashboard
+4. **Run the application**
+   ```bash
+   streamlit run app.py
+   ```
+
+5. **Access the dashboard**
+   - Open your web browser
+   - Navigate to `http://localhost:8501`
+
+### Requirements
+```txt
+streamlit>=1.28.0
+pandas>=2.0.0
+plotly>=5.15.0
+numpy>=1.24.0
 ```
 
-2️⃣ Install dependencies:
+## 📈 Key Findings
 
-```bash
-py -m pip install -r requirements.txt
-```
+### 🎯 **Market Overview**
+- **15,000+** job listings analyzed across multiple datasets
+- **86.2%** of roles are AI-focused, indicating strong market demand
+- Average salary of **$115,000+** for AI positions
+- **20+** major companies actively hiring in AI space
 
-3️⃣ Run the dashboard locally:
+### 💰 **Salary Insights**
+- AI roles command **1.2% salary premium** over non-AI roles
+- Salary range: **$32,515 - $390,085** across all positions
+- Clear correlation between specialized AI skills and higher compensation
 
-```bash
-streamlit run dashboard/app.py
-```
+### 🛠️ **Skills Analysis**
+- **Python** is the most demanded skill (1,400+ mentions)
+- **TensorFlow** and **PyTorch** lead ML framework requirements
+- **SQL** remains essential for data-related roles
+- Cloud platforms (**AWS, Azure, GCP**) show growing importance
 
-4️⃣ Optional (for NLP setup):
+### 🌍 **Geographic Trends**
+- **Switzerland** leads in AI job concentration
+- Strong presence in **India, China, France, Canada, Germany**
+- Remote opportunities showing significant growth
+- Tech hubs continue to dominate hiring
 
-```bash
-python -m spacy download en_core_web_sm
-```
+### 📊 **Role Distribution**
+- **AI Product Manager** and **Machine Learning Engineer** are top roles
+- **NLP Engineers** and **Data Scientists** in high demand
+- Emerging roles in **Robotics** and **Autonomous Systems**
+
+## 🎨 Customization
+
+### Adding New Datasets
+1. Place CSV files in the `data/` directory
+2. The app automatically detects and integrates new datasets
+3. Supported columns: `job_title`, `salary`, `skills`, `location`, `company`
+
+### Modifying Visualizations
+- Edit chart configurations in respective sections
+- Customize colors in the theme configuration
+- Add new plot types using Plotly Express
+
+### Theme Customization
+- Toggle between dark/light modes using sidebar button
+- Modify CSS in the `get_theme_css()` function
+- Customize Plotly themes in `get_plotly_theme()`
+
+## 🔍 Usage Guide
+
+### Data Filters
+- **Location Filter**: Select specific countries or regions
+- **Role Type**: Filter by AI roles, non-AI roles, or all roles
+- **Salary Range**: Adjust to focus on specific compensation levels
+- **Experience Level**: Filter by seniority (if data available)
+
+### Navigation
+- Use the horizontal radio buttons to switch between sections
+- Each section provides specialized insights and visualizations
+- Interactive charts allow zooming, panning, and data point inspection
+
+### Data Interpretation
+- Hover over charts for detailed information
+- Use filter combinations for targeted analysis
+- Export insights using Streamlit's built-in functionality
+
+## 🤝 Contributing
+
+We welcome contributions! Please feel free to submit pull requests or open issues for:
+
+- New visualization ideas
+- Additional data sources
+- Performance improvements
+- Bug fixes
+- Documentation enhancements
+
+### Contribution Guidelines
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Anesu Manjengwa**
+- 📧 Email: [manjengwap10@gmail.com](mailto:manjengwap10@gmail.com)
+- 💼 LinkedIn: [Anesu Manjengwa](https://www.linkedin.com/in/anesu-manjengwa-684766247)
+- 🐙 GitHub: [Iceyma02](https://github.com/Iceyma02)
+- 🔗 Portfolio: [AI Job Market Dashboard](https://github.com/Iceyma02/AI-Job-Market-Dashboard)
+
+## 🙏 Acknowledgments
+
+- Data sources and contributors
+- Streamlit community for excellent documentation
+- Plotly for powerful visualization capabilities
+- Open-source community for continuous inspiration
+
+## 📞 Support
+
+If you encounter any issues or have questions:
+
+1. Check the [Issues](https://github.com/Iceyma02/AI-Job-Market-Dashboard/issues) page
+2. Create a new issue with detailed description
+3. Contact via email for direct support
 
 ---
 
-### 🧠 Data Sources (Examples)
+<div align="center">
 
-You can use or merge data from:
+**⭐ Don't forget to star this repository if you find it helpful!**
 
-* [Kaggle – Global AI Job Trends Dataset](https://www.kaggle.com/)
-* [LinkedIn Jobs API or scraped listings](https://www.linkedin.com/jobs/)
-* [OECD Employment Outlook](https://www.oecd.org/employment/)
-* [World Economic Forum – Future of Jobs Report](https://www.weforum.org/)
+*Built with ❤️ using Streamlit and Python*
 
----
-
-### 🧩 Future Enhancements
-
-* Add real-time job listing scraping from APIs
-* Integrate machine learning models to predict future AI job trends
-* Include AI skill gap analysis by region
-* Add sentiment analysis on AI-related job posts
-
----
-
-### 📸 Dashboard Preview
-
-*(Add your screenshots here once your visuals are done)*
-Example:
-
-```markdown
-![Dashboard Overview](images/dashboard_preview.png)
-```
-
----
-
-### 👤 Author
-
-**Icey Manjengwa**
-🎓 Data Analyst | AI Enthusiast | BCA Graduate with Distinction
-📍 Passionate about data storytelling and emerging technologies
-📧 [[YourEmail@example.com](mailto:YourEmail@example.com)]
-🌐 [LinkedIn](https://www.linkedin.com/in/your-link/) | [GitHub](https://github.com/your-username)
-
----
-
-### ⭐ Acknowledgments
-
-Special thanks to open data communities and AI researchers who make global workforce insights possible.
-
----
-
-You want me to also generate your `requirements.txt` next (based on all the libraries you’ll need for this project)?
+</div>
